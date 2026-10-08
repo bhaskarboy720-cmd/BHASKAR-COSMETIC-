@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHASKAR COSMETIC</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#fff7fb;color:#222}
+header{background:#111;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}
+.brand{font-size:24px;font-weight:800;letter-spacing:1px}.tag{font-size:12px;color:#ddd;margin-top:4px}
+nav{margin-top:14px;display:flex;gap:8px;overflow:auto}nav button{border:0;border-radius:20px;padding:9px 14px;background:#fff;color:#111}
+.hero{padding:35px 18px;text-align:center;background:linear-gradient(135deg,#ffd6e9,#fff)}
+.hero h1{font-size:34px;margin:0 0 8px}.hero p{margin:0;color:#555}
+.container{max-width:1000px;margin:auto;padding:20px 16px}
+.toolbar{display:flex;gap:10px;margin-bottom:18px}.toolbar input{flex:1;padding:12px;border:1px solid #ddd;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px #00000012}
+.pic{height:170px;background:#f1e5eb;display:flex;align-items:center;justify-content:center;font-size:55px}
+.info{padding:12px}.name{font-weight:700}.price{font-weight:800;margin:7px 0}.add{width:100%;padding:10px;border:0;border-radius:9px;background:#111;color:#fff}
+.cart{position:fixed;right:15px;bottom:15px;background:#111;color:#fff;border:0;border-radius:30px;padding:14px 18px;box-shadow:0 5px 20px #0004}
+footer{text-align:center;padding:30px;color:#777;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">BHASKAR COSMETIC</div>
+  <div class="tag">Beauty • Cosmetics • Accessories</div>
+  <nav>
+    <button onclick="filter('All')">All</button>
+    <button onclick="filter('Cosmetics')">Cosmetics</button>
+    <button onclick="filter('Accessories')">Accessories</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Glow. Style. Shop.</h1>
+  <p>Your simple online beauty & accessories store.</p>
+</section>
+
+<main class="container">
+  <div class="toolbar">
+    <input id="search" placeholder="Search products..." oninput="render()">
+  </div>
+  <div id="products" class="grid"></div>
+</main>
+
+<button class="cart" onclick="orderCart()">🛒 Cart (<span id="count">0</span>)</button>
+
+<footer>
+  © 2026 BHASKAR COSMETIC • Add your WhatsApp number before publishing.
+</footer>
+
+<script>
+const products=[
+ {id:1,name:"Lipstick",price:199,cat:"Cosmetics",icon:"💄"},
+ {id:2,name:"Face Cream",price:249,cat:"Cosmetics",icon:"🧴"},
+ {id:3,name:"Earrings",price:149,cat:"Accessories",icon:"💍"},
+ {id:4,name:"Hair Clips",price:99,cat:"Accessories",icon:"🎀"},
+ {id:5,name:"Makeup Brush",price:179,cat:"Cosmetics",icon:"🖌️"},
+ {id:6,name:"Fashion Bracelet",price:129,cat:"Accessories",icon:"📿"}
+];
+let active="All",cart=[];
+function filter(c){active=c;render()}
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=products.filter(p=>(active==="All"||p.cat===active)&&p.name.toLowerCase().includes(q));
+ document.getElementById("products").innerHTML=list.map(p=>`
+ <div class="card"><div class="pic">${p.icon}</div><div class="info">
+ <div class="name">${p.name}</div><div class="price">₹${p.price}</div>
+ <button class="add" onclick="add(${p.id})">Add to Cart</button></div></div>`).join("");
+ document.getElementById("count").textContent=cart.length;
+}
+function add(id){cart.push(products.find(p=>p.id===id));document.getElementById("count").textContent=cart.length}
+function orderCart(){
+ if(!cart.length){alert("Please add a product first.");return}
+ let text="Hello BHASKAR COSMETIC, I want to order:%0A";
+ cart.forEach(p=>text+=`• ${p.name} - ₹${p.price}%0A`);
+ text+=`%0ATotal items: ${cart.length}`;
+ // Replace 91XXXXXXXXXX with your WhatsApp number.
+ window.open("https://wa.me/91XXXXXXXXXX?text="+text,"_blank");
+}
+render();
+</script>
+</body>
+</html>
